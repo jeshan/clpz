@@ -1978,6 +1978,7 @@ override_(user(Prev), Value, Options, _) :-
 
 selection(ff).
 selection(ffc).
+selection(ffv).
 selection(min).
 selection(max).
 selection(leftmost).
@@ -2009,6 +2010,11 @@ select_var(ff, [V|Vs], Var, RVars) :-
         delete_eq([V|Vs], Var, RVars).
 select_var(ffc, [V|Vs], Var, RVars) :-
         find_ffc(Vs, V, Var),
+        delete_eq([V|Vs], Var, RVars).
+select_var(ffv, [V|Vs], Var, RVars) :-
+        find_ffc(Vs, V, Var),
+	fd_dom(V, Dom),
+	writeln(var:Dom),
         delete_eq([V|Vs], Var, RVars).
 
 find_min([], Var, Var).
@@ -4332,6 +4338,8 @@ all_in_domain([A|As], [T|Ts]) :-
         all_in_domain(As, Ts).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+:- multifile clpz:run_propagator/4.
 
 %run_propagator(P, _) --> { portray_clause(run_propagator(P)), false }.
 % trivial propagator, used only to remember pending constraints
